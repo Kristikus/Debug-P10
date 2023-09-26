@@ -3,7 +3,7 @@ import EventCard from "./index";
 
 describe("When a event card is created", () => {
   it("an image is display with alt value", () => {
-    render(<EventCard imageSrc="http://src-image" imageAlt="image-alt-text" date={new Date("2022-04-01")} 
+    render(<EventCard imageSrc="http://src-image" imageAlt="image-alt-text" date="avril" 
     title="test event"
     
     label="test label"
@@ -19,7 +19,7 @@ describe("When a event card is created", () => {
         imageAlt="image-alt-text"
         title="test event"
         label="test label"
-        date={new Date("2022-04-01")}
+        date="avril"
       />
     );
     const titleElement = screen.getByText(/test event/);
@@ -37,7 +37,7 @@ describe("When a event card is created", () => {
           imageAlt="image-alt-text"
           title="test event"
           label="test label"
-          date={new Date("2022-04-01")}
+          date="avril"
           small
         />
       );

@@ -21,6 +21,7 @@ const EventList = () => {
     if (
       (currentPage - 1) * PER_PAGE <= index &&
       PER_PAGE * currentPage > index
+
     ) {
       return true;
     }
@@ -32,6 +33,24 @@ const EventList = () => {
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
   const typeList = new Set(data?.events.map((event) => event.type));
+
+  const periodeList = data?.events.map((event) => event.periode)
+  const periodeElements = periodeList?.map((element) => {
+    const subString = element.split(' ')
+    return subString[subString.length-1]
+  })
+
+  const months = periodeElements?.filter((month, index) => {
+    if(
+      (currentPage - 1) * PER_PAGE <= index
+      && PER_PAGE * currentPage > index
+      && !Number.isNaN(month)
+    ) {
+      return true
+    }
+    return false
+  });
+
   return (
     <>
       {error && <div>An error occured</div>}
@@ -45,15 +64,15 @@ const EventList = () => {
             onChange={(value) => (value ? changeType(value) : changeType(null))}
           />
           <div id="events" className="ListContainer">
-            {filteredEvents.map((event) => (
+            {filteredEvents.map((event, index) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
-                    onClick={() => setIsOpened(true)}
-                    imageSrc={event.cover}
-                    title={event.title}
-                    date={new Date(event.date)}
-                    label={event.type}
+                     onClick={() => setIsOpened(true)}
+                     imageSrc={event.cover}
+                     title={event.title}
+                     date={months[index]}
+                     label={event.type}
                   />
                 )}
               </Modal>
