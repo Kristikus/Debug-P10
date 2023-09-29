@@ -4,6 +4,7 @@ import Select from "../../components/Select";
 import { useData } from "../../contexts/DataContext";
 import Modal from "../Modal";
 import ModalEvent from "../ModalEvent";
+import { getMonth } from "../../helpers/Date/index"
 
 import "./style.css";
 
@@ -17,12 +18,11 @@ const EventList = () => {
     (!type
       ? data?.events
       : data?.events) || []
-  ).filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-
-    ) {
+  ).filter((event) => {
+    if (!type) {
+      return true;
+    } 
+    if(type === event.type) {
       return true;
     }
     return false;
@@ -31,25 +31,12 @@ const EventList = () => {
     setCurrentPage(1);
     setType(evtType);
   };
-  const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
+  let pageNumber = Math.ceil((filteredEvents?.length || 0) / PER_PAGE) + 1;
+  if(Number.isInteger(pageNumber)) {
+    pageNumber = Math.ceil((filteredEvents?.length || 0) / PER_PAGE);
+  }
+  const paginatedItems = filteredEvents?.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
   const typeList = new Set(data?.events.map((event) => event.type));
-
-  const periodeList = data?.events.map((event) => event.periode)
-  const periodeElements = periodeList?.map((element) => {
-    const subString = element.split(' ')
-    return subString[subString.length-1]
-  })
-
-  const months = periodeElements?.filter((month, index) => {
-    if(
-      (currentPage - 1) * PER_PAGE <= index
-      && PER_PAGE * currentPage > index
-      && !Number.isNaN(month)
-    ) {
-      return true
-    }
-    return false
-  });
 
   return (
     <>
@@ -64,15 +51,15 @@ const EventList = () => {
             onChange={(value) => (value ? changeType(value) : changeType(null))}
           />
           <div id="events" className="ListContainer">
-            {filteredEvents.map((event, index) => (
+            {paginatedItems.map((event) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
-                     onClick={() => setIsOpened(true)}
-                     imageSrc={event.cover}
-                     title={event.title}
-                     date={months[index]}
-                     label={event.type}
+                      onClick={() => setIsOpened(true)}
+                      imageSrc={event.cover}
+                      title={event.title}
+                      date={getMonth(new Date(event.date))}
+                      label={event.type}
                   />
                 )}
               </Modal>

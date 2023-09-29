@@ -119,7 +119,7 @@ const Page = () => {
         <EventCard
           imageSrc={last?.cover}
           title={last?.title}
-          date=""
+          date={last?.date}
           small
           label="boom"
         />
