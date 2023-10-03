@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, 
+} from "@testing-library/react";
 import Home from "./index";
 
 describe("When Form is created", () => {
@@ -30,13 +31,22 @@ describe("When Form is created", () => {
 
 describe("When a page is created", () => {
   it("a list of events is displayed", () => {
-    // to implement
-  })
+  //   // to implement
+    render(<Home />);
+    const i = screen.queryByTestId('card-testid')
+    expect(i).toBeDefined()
+})
   it("a list a people is displayed", () => {
     // to implement
+    const {container} = render(<Home />);
+    const peopleCards = container.getElementsByClassName("PeopleCard");
+    expect(peopleCards.length).toBe(6)
   })
   it("a footer is displayed", () => {
     // to implement
+    render(<Home />);
+    screen.findByText("Notre dernière prestation");
+    screen.findByText("Contactez-nous");
   })
   it("an event card, with the last event, is displayed", () => {
     // to implement
