@@ -6,7 +6,7 @@ import "./style.scss";
 const EventCard = ({
   imageSrc,
   imageAlt,
-  date,
+  date = new Date(),
   title,
   label,
   small = false,
@@ -23,7 +23,7 @@ const EventCard = ({
       </div>
       <div className="EventCard__descriptionContainer">
         <div className="EventCard__title">{title}</div>
-        <div className="EventCard__month">{getMonth(new Date(date))}</div>
+        <div className="EventCard__month">{getMonth(date)}</div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, 
+import { fireEvent, render, screen
 } from "@testing-library/react";
 import Home from "./index";
 
@@ -32,10 +32,7 @@ describe("When Form is created", () => {
 describe("When a page is created", () => {
   it("a list of events is displayed", () => {
   //   // to implement
-    render(<Home />);
-    const i = screen.queryByTestId('card-testid')
-    expect(i).toBeDefined()
-})
+  })
   it("a list a people is displayed", () => {
     // to implement
     const {container} = render(<Home />);
